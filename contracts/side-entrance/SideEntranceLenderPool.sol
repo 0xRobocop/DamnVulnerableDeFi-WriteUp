@@ -30,11 +30,15 @@ contract SideEntranceLenderPool {
         uint256 balanceBefore = address(this).balance;
         require(balanceBefore >= amount, "Not enough ETH in balance");
 
-        // The attack happens here, the interfaces only need to match in the signature,
-        // but you do not control what does that function does, this can be attacked by
-        // creating a function execute() that call the deposit() function so the flashLoan
-        // do not throw, and then you can call withdraw()
+        // The attack is that during the execute function we can call deposit()
+        // and the pool do not have a way to distinguish between repaying the loan
+        // and depositing money that comes from the flash loan
+
         IFlashLoanEtherReceiver(msg.sender).execute{value: amount}();
+
+        // One way to fix this contract is maybe use something a variable to track the balance
+        // of the pool only from deposits, and add an assert than during a flashloan this variable
+        // remain the same.
 
         require(address(this).balance >= balanceBefore, "Flash loan hasn't been paid back");
     }
